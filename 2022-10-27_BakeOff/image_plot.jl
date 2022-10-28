@@ -1,24 +1,28 @@
-using CairoMakie
-using Colors
-using CSV
-using DataFrames
-using FileIO
+begin
+    using CairoMakie
+    using Colors
+    using CSV
+    using DataFrames
+    using FileIO
+end
 
-set_theme!(theme_light())
+begin
+    set_theme!(theme_light())
 
-ASPECT = 1.69
-FIG_WIDTH = 960
+    ASPECT = 1.69
+    FIG_WIDTH = 960
 
-# Bake off colours
-bakeoff_blue = colorant"#197b9f"
-bakeoff_pink = colorant"#c73d67"
-bakeoff_gray = colorant"#d3d2cb"
+    # Bake off colours
+    bakeoff_blue = colorant"#197b9f"
+    bakeoff_pink = colorant"#c73d67"
+    bakeoff_gray = colorant"#d3d2cb"
 
-expand_extrema = x -> (Int(floor(minimum(x)) - 5), Int(floor(maximum(x)) + 5))
+    expand_extrema = x -> (Int(floor(minimum(x)) - 5), Int(floor(maximum(x)) + 5))
 
-file = "./data/bakers.csv"
-df = CSV.File(file, stringtype=String) |> DataFrame;
-winner_df = filter(:series_winner => ==(1), df)
+    file = "./data/bakers.csv"
+    df = CSV.File(file, stringtype=String) |> DataFrame
+    winner_df = filter(:series_winner => ==(1), df)
+end
 
 ## Shapes for scatter plot
 square_with_hole = BezierPath([
@@ -43,7 +47,7 @@ circle_circle = BezierPath([
 ## Plot of winner ages
 begin
     F = Figure(resolution=(FIG_WIDTH, FIG_WIDTH / ASPECT))
-    A = Axis(F[1, 1], ASPECT=ASPECT)
+    A = Axis(F[1, 1], aspect=ASPECT)
     xlims = (0, 11)
     ylims = expand_extrema(winner_df.age)
     A.limits = (xlims, ylims)
@@ -100,7 +104,7 @@ end
 
 # save("figs/baker_age.png", F, px_per_unit=2.0)
 
-## Star Baker - The data is incorrect
+## Star Baker - The data is incorrect so create based on the episode data
 begin
     episodes_df = CSV.File("./data/episodes.csv", stringtype=String) |> DataFrame
 
@@ -119,9 +123,9 @@ begin
     highest_star_percent = maximum(winner_df.star_baker_percent)
     most_successful = findall(==(highest_star_percent), winner_df.star_baker_percent)
 
-    best_string = winner_df.baker[most_successful[1]]
+    global best_string = winner_df.baker[most_successful[1]]
     for i in 2:length(most_successful)
-        best_string *= " & " * winner_df.baker[most_successful[i]]
+        global best_string *= " & " * winner_df.baker[most_successful[i]]
     end
 end
 
@@ -132,13 +136,13 @@ begin
     xlims = (0.5, 10.5)
 
     F = Figure(resolution=(FIG_WIDTH, FIG_WIDTH / (0.7 * ASPECT)))
-    A = Axis(F[1, 1], ASPECT=ASPECT)
+    A = Axis(F[1, 1], aspect=ASPECT)
     A.limits = (xlims, ylims)
 
     A.title = "Bake-Off!"
     A.titlealign = :left
     A.titlesize = 25
-    A.subtitle = "How many times did the series winner achieve star baker. Series 1 did not award star baker.\n$(winner_df.baker[10]) won their series without achieving star baker in any episode.\nSeries 1 had 6 episodes, series 2 had 8. All following series have 10 episodes.\n$(best_string) are the most most successful bakers, achieving star baker $(winner_df.star_baker[most_successful[1]]) times.\n "
+    A.subtitle = "How many times did the series winner achieve star baker. Series 1 did not award star baker.\n$(winner_df.baker[10]) won their series without achieving star baker in any episode.\nSeries 1 had 6 episodes, series 2 had 8. All following series have 10 episodes.\n$(best_string) are the most successful bakers, achieving star baker $(winner_df.star_baker[most_successful[1]]) times.\n "
     A.xlabel = "Series"
     A.ylabel = "Number of Star Baker Awards"
     A.xticks = (collect(1:10), string.(collect(1:10)))
@@ -216,4 +220,4 @@ begin
     F
 end
 
-# save("./figs/baker_star_baker.png", F, px_per_unit=2.0)
+save("./figs/baker_star_baker.png", F, px_per_unit=2.0)
