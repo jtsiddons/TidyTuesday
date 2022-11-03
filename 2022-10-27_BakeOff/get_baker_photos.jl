@@ -14,7 +14,7 @@ dest = "./data/baker_img/"
 
 processed_names = Dict{String,Int64}()
 
-tag = Selector(".attachment-baker-profile")
+tag = Selector("img.attachment-baker-profile")
 
 for row in eachrow(df)
     local name = row.baker
