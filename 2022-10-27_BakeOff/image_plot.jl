@@ -134,8 +134,9 @@ begin
     ylims = (-0.5, 4)
     yticks = collect(0:3)
     xlims = (0.5, 10.5)
+    figure_padding = 10
 
-    F = Figure(resolution=(FIG_WIDTH, FIG_WIDTH / (0.7 * ASPECT)))
+    F = Figure(resolution=(FIG_WIDTH, FIG_WIDTH / (0.7 * ASPECT)), figure_padding=figure_padding)
     A = Axis(F[1, 1], aspect=ASPECT)
     A.limits = (xlims, ylims)
 
@@ -210,9 +211,14 @@ begin
     vlines!(A, [4.5, 7.5], linewidth=1, linestyle=:dash, color=:gray30)
     text!(A, [0.5, 4.5, 7.5] .+ 0.1, [4.0, 4.0, 4.0], text=["BBC2", "BBC1", "Channel 4"], align=(:left, :top))
 
-    Label(F[2, 1],
-        "© JTSiddons\nData available from \"https://bakeoff.netlify.app/\".\nBaker images from \"https://thegreatbritishbakeoff.co.uk\"",
+    # padding for Label (origin of axis x-coord)
+    pad_left = A.scene.px_area.val.origin[1]-figure_padding
+
+    Label(F[1, 1, BottomLeft()],
+        "@JTSiddons\nData available from \"https://bakeoff.netlify.app/\".\nBaker images from \"https://thegreatbritishbakeoff.co.uk\"",
         justification=:left,
+        padding=(pad_left,0,0,0),
+        halign= :left,
         # tellheight=false,
         tellwidth=false
     )
