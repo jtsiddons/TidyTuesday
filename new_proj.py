@@ -110,7 +110,7 @@ print(f"[i] Working in {lang[lang_choice]} this week!")
 if not os.path.exists("README.md"):
     with open("README.md", "w") as io:
         io.write(f"# {date_str}: {project[0]}\n\n")
-        io.write(f"This week I am working in {lang[lang_choice]}.\n\n")
+        io.write(f"Week f{week}. This week I am working in {lang[lang_choice]}.\n\n")
         io.write("## Data\n\n")
         io.write(f"Data from [{source[0]}]({source[1]})\n")
         io.write(f"More information can be found at [{article[0]}]({article[1]})")
