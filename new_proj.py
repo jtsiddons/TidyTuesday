@@ -112,7 +112,9 @@ if not os.path.exists("README.md"):
         io.write(f"# {date_str}: {project[0]}\n\n")
         io.write(f"This week I am working in {lang[lang_choice]}.\n\n")
         io.write("## Data\n\n")
-        io.write(f"Data from [{source[0]}]({source[1]})\n\n### Tables\n\n")
+        io.write(f"Data from [{source[0]}]({source[1]})\n")
+        io.write(f"More information can be found at [{article[0]}]({article[1]})")
+        io.write("\n\n### Tables\n\n")
         for csv in this_week_csv:
             df = pd.read_csv("data/" + csv)
             io.write(f"#### {csv}\n\n##### Data Type\n\n")
