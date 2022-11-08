@@ -18,10 +18,6 @@ os.chdir("/home/joe/Documents/TidyTuesday")
 TIDYVERSE_URL: str = (
     "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/"
 )
-TIDYVERSE_DATA_URL: str = (
-    "https://github.com/rfordatascience/tidytuesday/tree/master/data/"
-)
-
 
 # Get week's Tuesday
 # --------------------
@@ -59,13 +55,12 @@ week = int(week_line[2:4])
 project, source, article = re.findall(r"\[([^\|]*)\]\(([^\|]*)\)", week_line)
 
 dir_name = date_str + "_" + project[0].replace(" ", "")
-week_readme = requests.get(TIDYVERSE_URL + project[1] + "/readme.md").content.decode()
 
 # Get all CSV files for this week
 # --------------------
 
 ## Start with the data csv - to extract this weeks files
-data_names = "https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/static/tt_data_type.csv"
+data_names = TIDYVERSE_URL + "static/tt_data_type.csv"
 all_csvs = requests.get(data_names).content.decode().split("\n")
 this_week_csv = [
     line.split(",")[3] for line in all_csvs if re.search(r",%s," % date_str, line)
@@ -110,18 +105,25 @@ print(f"[i] Working in {lang[lang_choice]} this week!")
 if not os.path.exists("README.md"):
     with open("README.md", "w") as io:
         io.write(f"# {date_str}: {project[0]}\n\n")
-        io.write(f"Week f{week}. This week I am working in {lang[lang_choice]}.\n\n")
+        io.write(f"Week {week}. This week I am working in {lang[lang_choice]}.\n\n")
         io.write("## Data\n\n")
         io.write(f"Data from [{source[0]}]({source[1]})\n")
         io.write(f"More information can be found at [{article[0]}]({article[1]})")
         io.write("\n\n### Tables\n\n")
         for csv in this_week_csv:
             df = pd.read_csv("data/" + csv)
-            io.write(f"#### {csv}\n\n##### Data Type\n\n")
-            io.write(df.dtypes.to_markdown())
+            io.write(f"#### `{csv}`\n\n##### Data Type\n\n")
+            typing = df.dtypes.to_frame(name="type")
+            io.write(typing.to_markdown())
             io.write("\n\n##### Data Summary\n\n")
             io.write(df.describe().T.to_markdown())
             io.write("\n\n")
+            non_num_cols = typing.loc[typing['type'] == object].index.values
+            if non_num_cols.any() and (len(non_num_cols) != len(df.columns)):
+                non_num_df = df[non_num_cols]
+                io.write(non_num_df.describe().T.to_markdown())
+                io.write("\n\n")
+
 
 print("-" * 25)
 
@@ -151,11 +153,11 @@ if not code_exists:
             io.write("library(tidyverse)\n\n\n")
             for csv in this_week_csv:
                 file_prefix = csv.split(".")[0]
-                io.write(f'{file_prefix}_file -> "./data/{csv}"\n')
-                io.write(f"{file_prefix}_df -> read.csv({file_prefix}_file)\n\n")
+                io.write(f'{file_prefix}_file <- "./data/{csv}"\n')
+                io.write(f"{file_prefix}_df <- read.csv({file_prefix}_file)\n\n")
     else:
         with open(script_file, "w") as io:
-            io.write("import pandas as pd\nimport seaborn as sns\n\n\n")
+            io.write("import pandas as pd\nimport numpy as np\nimport seaborn as sns\n\n\n")
             for csv in this_week_csv:
                 file_prefix = csv.split(".")[0]
                 io.write(f'{file_prefix}_file = "./data/{csv}"\n')
@@ -164,5 +166,3 @@ if not code_exists:
 print("-" * 25)
 
 print("[i] Script Complete!")
-
-os.chdir(cwd + dir_name)
