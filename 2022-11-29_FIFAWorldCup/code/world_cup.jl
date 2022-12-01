@@ -179,7 +179,7 @@ begin
         Ax,
         xlims[1]+0.06,
         ylims[2]-0.38, 
-        text = "$(winner_num.winner[1]) is the most successful nation, winning $(winner_num.count[1]) times in $(when_best_nation_won_string).",
+        text = "$(winner_num.winner[1]) is the most successful nation, having won $(winner_num.count[1]) times in $(when_best_nation_won_string).",
         justification=:left,
         align=(:left, :top),
         textsize=35,
