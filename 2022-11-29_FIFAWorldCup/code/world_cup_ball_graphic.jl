@@ -73,34 +73,34 @@ end
 # Bottom
 
 Uru = load("./figs/1930-World-Cup-Final.jpg") |> square_image
-orthographic_project(rotr90(Uru), projection, (-75, -25), (-75, -25))
+orthographic_project(rotr90(Uru), projection, (-75, -25.2), (-75, -25.2))
 
 Switz = load("./figs/1954-World-Cup-Final.jpg") |> square_image
-orthographic_project(rotr90(Switz), projection, (-25, 25), (-75, -25))
+orthographic_project(rotr90(Switz), projection, (-24.9, 24.9), (-75, -25.2))
 
 Chile = load("./figs/1962-World-Cup-Final.jpg") |> square_image
-orthographic_project(rotr90(Chile), projection, (25, 75), (-75, -25))
+orthographic_project(rotr90(Chile), projection, (25.2, 75), (-75, -25.2))
 
 # Centre
 
 Sweden = load("./figs/1958-World-Cup-Final.jpg") |> square_image
-orthographic_project(rotr90(Sweden), projection, (-75, -25), (-25, 25))
+orthographic_project(rotr90(Sweden), projection, (-75, -25.2), (-24.9, 24.9))
 
 Eng = load("./figs/1966-World-Cup-Final.jpg") |> square_image
-orthographic_project(rotr90(Eng), projection, (-25, 25), (-25, 25))
+orthographic_project(rotr90(Eng), projection, (-24.9, 24.9), (-24.9, 24.9))
 
 Mexico = load("./figs/1970-World-Cup-Final.jpg") |> square_image
-orthographic_project(rotr90(Mexico), projection, (25, 75), (-25, 25))
+orthographic_project(rotr90(Mexico), projection, (25.2, 75), (-24.9, 24.9))
 
 # Top
 
 USA = load("./figs/1994-World-Cup-Final.jpg") |> square_image
-orthographic_project(rotr90(USA), projection, (-75, -25), (25, 75))
+orthographic_project(rotr90(USA), projection, (-75, -25.2), (25.2, 75))
 
 Japan = load("./figs/2002-World-Cup-Final.jpg") |> square_image
-orthographic_project(rotr90(Japan), projection, (-25, 25), (25, 75))
+orthographic_project(rotr90(Japan), projection, (-24.9, 24.9), (25.2, 75))
 
 Brazil = load("./figs/2014-World-Cup-Final.jpg") |> square_image
-orthographic_project(rotr90(Brazil), projection, (25, 75), (25, 75))
+orthographic_project(rotr90(Brazil), projection, (25.2, 75), (25.2, 75))
 
 projection
