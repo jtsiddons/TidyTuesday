@@ -118,7 +118,7 @@ begin
     # Draw the ball
     poly!(Ax, Circle(Point2f(0, 0), ball_radius), color=:black)
         
-    image!(Ax, [-1, 1], [-1, 1], rotr90(projection))
+    image!(Ax, [-1, 1], [-1, 1], projection)
 
     # Add in svg that hides image content outside of ball
     scatter!(Ax, (0, 0), marker=square_with_hole, markersize=4*ball_radius, color=backgroundcolor, markerspace=:data)

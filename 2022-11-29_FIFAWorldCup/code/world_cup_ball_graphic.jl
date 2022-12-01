@@ -70,35 +70,37 @@ end
 
 ## Add some images to the football
 
-## Left side
+# Bottom
 
 Uru = load("./figs/1930-World-Cup-Final.jpg") |> square_image
-orthographic_project(Uru, projection, (-25, 25), (-75, -25))
+orthographic_project(rotr90(Uru), projection, (-75, -25), (-75, -25))
 
 Switz = load("./figs/1954-World-Cup-Final.jpg") |> square_image
-orthographic_project(Switz, projection, (25, 75), (-75, -25))
+orthographic_project(rotr90(Switz), projection, (-25, 25), (-75, -25))
 
 Chile = load("./figs/1962-World-Cup-Final.jpg") |> square_image
-orthographic_project(Chile, projection, (-75, -25), (-75, -25))
+orthographic_project(rotr90(Chile), projection, (25, 75), (-75, -25))
 
-## Centre
+# Centre
+
+Sweden = load("./figs/1958-World-Cup-Final.jpg") |> square_image
+orthographic_project(rotr90(Sweden), projection, (-75, -25), (-25, 25))
 
 Eng = load("./figs/1966-World-Cup-Final.jpg") |> square_image
-orthographic_project(Eng, projection, (-25, 25), (-25, 25))
+orthographic_project(rotr90(Eng), projection, (-25, 25), (-25, 25))
 
 Mexico = load("./figs/1970-World-Cup-Final.jpg") |> square_image
-orthographic_project(Mexico, projection, (25, 75), (-25, 25))
+orthographic_project(rotr90(Mexico), projection, (25, 75), (-25, 25))
 
-Spain = load("./figs/1982-World-Cup-Final.jpg") |> square_image
-orthographic_project(Spain, projection, (-75, -25), (-25, 25))
-
-## Right Side
+# Top
 
 USA = load("./figs/1994-World-Cup-Final.jpg") |> square_image
-orthographic_project(USA, projection, (-25, 25), (25, 75))
+orthographic_project(rotr90(USA), projection, (-75, -25), (25, 75))
 
 Japan = load("./figs/2002-World-Cup-Final.jpg") |> square_image
-orthographic_project(Japan, projection, (25, 75), (25, 75))
+orthographic_project(rotr90(Japan), projection, (-25, 25), (25, 75))
 
 Brazil = load("./figs/2014-World-Cup-Final.jpg") |> square_image
-orthographic_project(Brazil, projection, (-75, -25), (25, 75))
+orthographic_project(rotr90(Brazil), projection, (25, 75), (25, 75))
+
+projection
