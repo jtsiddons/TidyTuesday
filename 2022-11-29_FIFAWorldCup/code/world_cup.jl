@@ -172,7 +172,7 @@ begin
     )
 
     when_best_nation_won = worldcups_df.year[worldcups_df.winner .== winner_num.winner[1]]
-    when_best_nation_won_string = join(when_best_nation_won,", ", " and ")
+    when_best_nation_won_string = join(when_best_nation_won,", ", ", and ")
 
     # Subtitle
     text!(
